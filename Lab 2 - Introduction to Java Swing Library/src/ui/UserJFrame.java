@@ -199,7 +199,7 @@ public class UserJFrame extends javax.swing.JFrame {
 
     private void setupAgeSpinner() {
     // start value, min, max, step -> starts at 18, can never go below 1 or above 120
-    jSpinnerAge.setModel(new javax.swing.SpinnerNumberModel(18, 1, 120, 1));
+    jSpinnerAge.setModel(new javax.swing.SpinnerNumberModel(18, 0, 120, 1));
 
     // "#" = plain integer display (no decimals or commas)
     javax.swing.JSpinner.NumberEditor editor =
@@ -283,6 +283,13 @@ public class UserJFrame extends javax.swing.JFrame {
             } catch (Exception ex) {
                 logger.log(java.util.logging.Level.WARNING, "Could not load image for dialog", ex);
             }
+        }
+
+        if (ageValue < 18) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+            "You must be at least 18 years old to submit.", errorTitle,
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
         }
 
         javax.swing.JOptionPane.showMessageDialog(this, summary,

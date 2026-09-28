@@ -17,6 +17,7 @@ public class UserJFrame extends javax.swing.JFrame {
      */
     public UserJFrame() {
         initComponents();
+        setupAgeSpinner();
     }
 
     /**
@@ -42,7 +43,7 @@ public class UserJFrame extends javax.swing.JFrame {
         lastNameText = new javax.swing.JTextField();
         jRadioButtonFemale = new javax.swing.JRadioButton();
         jRadioButtonMale = new javax.swing.JRadioButton();
-        jSpinnerGender = new javax.swing.JSpinner();
+        jSpinnerAge = new javax.swing.JSpinner();
         jScrollPaneExpTextArea = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         continentComboBox = new javax.swing.JComboBox<>();
@@ -78,7 +79,7 @@ public class UserJFrame extends javax.swing.JFrame {
         buttonGroup3.add(jRadioButtonMale);
         jRadioButtonMale.setText("Male");
 
-        jSpinnerGender.setPreferredSize(new java.awt.Dimension(74, 28));
+        jSpinnerAge.setPreferredSize(new java.awt.Dimension(74, 28));
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -119,7 +120,7 @@ public class UserJFrame extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jRadioButtonMale, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jRadioButtonFemale, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSpinnerGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSpinnerAge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(continentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPaneExpTextArea)
                             .addComponent(photoTextField)
@@ -153,7 +154,7 @@ public class UserJFrame extends javax.swing.JFrame {
                 .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(age)
-                    .addComponent(jSpinnerGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSpinnerAge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(phoneNumber)
@@ -196,6 +197,30 @@ public class UserJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_continentComboBoxActionPerformed
 
+    private void setupAgeSpinner() {
+    // start value, min, max, step -> starts at 18, can never go below 1 or above 120
+    jSpinnerAge.setModel(new javax.swing.SpinnerNumberModel(18, 1, 120, 1));
+
+    // "#" = plain integer display (no decimals or commas)
+    javax.swing.JSpinner.NumberEditor editor =
+        new javax.swing.JSpinner.NumberEditor(jSpinnerAge, "#");
+    jSpinnerAge.setEditor(editor);
+
+    javax.swing.JFormattedTextField tf = editor.getTextField();
+    javax.swing.text.NumberFormatter formatter =
+        (javax.swing.text.NumberFormatter) tf.getFormatter(); 
+
+    formatter.setAllowsInvalid(false);      // blocks letters, "-", and out-of-range numbers
+    formatter.setCommitsOnValidEdit(true);  // typed value is applied immediately, no Enter needed
+
+    // Select the whole number when the field is clicked, so typing replaces it
+    tf.addFocusListener(new java.awt.event.FocusAdapter() {
+        @Override
+        public void focusGained(java.awt.event.FocusEvent e) {
+            javax.swing.SwingUtilities.invokeLater(tf::selectAll);
+        }
+    });
+}
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
     // TODO add your handling code here:
     
@@ -206,7 +231,7 @@ public class UserJFrame extends javax.swing.JFrame {
         String lastName = lastNameText.getText().trim();
         String phone = phoneNumberText.getText().trim();
         String continentSel = (String) continentComboBox.getSelectedItem();
-        int ageValue = (int) jSpinnerGender.getValue();
+        int ageValue = (int) jSpinnerAge.getValue();
         String experienceText = jTextArea1.getText().trim();
         String photoPath = photoTextField.getText().trim();
         
@@ -341,7 +366,7 @@ public class UserJFrame extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButtonFemale;
     private javax.swing.JRadioButton jRadioButtonMale;
     private javax.swing.JScrollPane jScrollPaneExpTextArea;
-    private javax.swing.JSpinner jSpinnerGender;
+    private javax.swing.JSpinner jSpinnerAge;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lastName;
     private javax.swing.JTextField lastNameText;
